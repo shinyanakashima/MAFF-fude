@@ -31,7 +31,7 @@ async function updateResults() {
   const fc = { type: "FeatureCollection", features: [] };
   let i = 0;
   for await (const feature of deserialize('https://zksdx.org/map/opendata/maff/fude_polygon/2024/fgb/fude_2024_01.fgb', fgbBoundingBox())) {
-    fc.features.push({ ...feature, id: i++ });
+    fc.features.push({ ...feature, id: feature.properties.polygon_uuid ?? `fude-${i++}` });
   }
   map.getSource("polygons").setData(fc);
 }
