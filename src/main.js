@@ -26,7 +26,7 @@ function fgbBoundingBox() {
 
 async function updateResults() {
   // polygons-fillレイヤーと連動。こちらはデータ読み込みをスキップするための制御
-  if (map.getZoom() < 9) return;
+  if (map.getZoom() < 11) return;
 
   const fc = { type: "FeatureCollection", features: [] };
   let i = 0;
