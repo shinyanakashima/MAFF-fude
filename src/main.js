@@ -1,0 +1,42 @@
+import 'maplibre-gl/dist/maplibre-gl.css';
+import './style.css';
+
+import maplibregl from 'maplibre-gl';
+import { deserialize } from 'flatgeobuf/lib/mjs/geojson';
+import throttle from 'lodash.throttle';
+
+const map = new maplibregl.Map({
+  container: "map",
+  style: '/style.json',
+  center: [143.15950914681895, 42.92919045913274], // 初期位置
+  zoom: 10,
+  maxZoom: 18,
+});
+
+function fgbBoundingBox() {
+  const { _sw, _ne } = map.getBounds();
+  return {
+    minX: _sw.lng,
+    minY: _sw.lat,
+    maxX: _ne.lng,
+    maxY: _ne.lat,
+  };
+}
+
+async function updateResults() {
+  // polygons-fillレイヤーと連動。こちらはデータ読み込みをスキップするための制御
+  if (map.getZoom() < 9) return;
+
+  const fc = { type: "FeatureCollection", features: [] };
+  let i = 0;
+  for await (const feature of deserialize('https://zksdx.org/map/opendata/maff/fude_polygon/2024/fgb/fude_2024_01.fgb', fgbBoundingBox())) {
+    fc.features.push({ ...feature, id: i++ });
+  }
+  map.getSource("polygons").setData(fc);
+}
+
+map.on("load", () => {
+
+  map.on("moveend", throttle(updateResults, 1000));
+  updateResults();
+});
