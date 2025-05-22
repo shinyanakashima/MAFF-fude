@@ -11,6 +11,7 @@ const map = new maplibregl.Map({
   center: [143.15950914681895, 42.92919045913274], // 初期位置
   zoom: 10,
   maxZoom: 18,
+  hash: true,
 });
 
 function fgbBoundingBox() {
