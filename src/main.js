@@ -1,5 +1,6 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
+import style from './assets/style.json';
 
 import maplibregl from 'maplibre-gl';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson';
@@ -7,7 +8,7 @@ import throttle from 'lodash.throttle';
 
 const map = new maplibregl.Map({
   container: "map",
-  style: '/style.json',
+  style,
   center: [143.15950914681895, 42.92919045913274], // 初期位置
   zoom: 10,
   maxZoom: 18,
