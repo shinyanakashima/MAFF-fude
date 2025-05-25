@@ -10,7 +10,7 @@ const map = new maplibregl.Map({
   container: "map",
   style,
   center: [143.15950914681895, 42.92919045913274], // 初期位置
-  zoom: 10,
+  zoom: 12,
   maxZoom: 18,
   hash: true,
 });
