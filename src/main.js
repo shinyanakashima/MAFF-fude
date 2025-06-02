@@ -29,12 +29,14 @@ async function updateResults() {
   // polygons-fillレイヤーと連動。こちらはデータ読み込みをスキップするための制御
   if (map.getZoom() < 11) return;
 
+  document.getElementById("loading-ui")?.classList.remove("hidden"); // 表示
   const fc = { type: "FeatureCollection", features: [] };
   let i = 0;
   for await (const feature of deserialize('https://zksdx.org/map/opendata/maff/fude_polygon/2024/fgb/fude_2024_01.fgb', fgbBoundingBox())) {
     fc.features.push({ ...feature, id: feature.properties.polygon_uuid ?? `fude-${i++}` });
   }
   map.getSource("polygons").setData(fc);
+  document.getElementById("loading-ui")?.classList.add("hidden");    // 非表示
 }
 
 map.on("load", () => {
