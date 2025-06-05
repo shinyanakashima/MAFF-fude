@@ -11,6 +11,7 @@ const map = new maplibregl.Map({
   style,
   center: [143.15950914681895, 42.92919045913274], // 初期位置
   zoom: 12,
+  minZoom: 9,
   maxZoom: 18,
   hash: true,
 });
@@ -27,7 +28,7 @@ function fgbBoundingBox() {
 
 async function updateResults() {
   // polygons-fillレイヤーと連動。こちらはデータ読み込みをスキップするための制御
-  if (map.getZoom() < 11) return;
+  if (map.getZoom() < 9) return;
 
   document.getElementById("loading-ui")?.classList.remove("hidden"); // 表示
   const fc = { type: "FeatureCollection", features: [] };
